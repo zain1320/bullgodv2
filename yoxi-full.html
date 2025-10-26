@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOXI - The Golden Cat of Fortune</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #2E2DF2;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        @keyframes float-particle {
+            0% { transform: translateY(0) translateX(0); opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { text-shadow: 0 0 20px rgba(242, 219, 105, 0.5), 3px 3px 0px #000; }
+            50% { text-shadow: 0 0 30px rgba(242, 219, 105, 0.8), 3px 3px 0px #000; }
+        }
+
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float-particle { animation: float-particle 12s ease-in-out infinite; }
+        .animate-scroll { animation: scroll 30s linear infinite; }
+        .animate-fade-up { animation: fade-up 0.8s ease-out forwards; }
+        .glow-text { animation: glow-pulse 3s ease-in-out infinite; }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: #2E2DF2;
+            border-bottom: 2px solid black;
+        }
+
+        .header-top {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid black;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #F2DB69;
+            text-shadow: 3px 3px 0px #000;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 24px;
+            font-weight: 900;
+            border: 2px solid black;
+            cursor: pointer;
+            background: #F2DB69;
+            color: black;
+        }
+
+        .ticker-bar {
+            background: #2563eb;
+            border-top: 2px solid black;
+            border-bottom: 2px solid black;
+            padding: 8px 0;
+            overflow: hidden;
+        }
+
+        .ticker-content {
+            display: flex;
+            white-space: nowrap;
+        }
+
+        .ticker-item {
+            color: #F2DB69;
+            font-weight: 900;
+            font-size: 1.125rem;
+            margin: 0 32px;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 160px 16px 96px;
+            background: #2E2DF2;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 9rem);
+            font-weight: 900;
+            color: #F2DB69;
+            line-height: 1;
+            margin-bottom: 24px;
+            text-shadow: 6px 6px 0px #000;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 2.5rem);
+            font-weight: 900;
+            color: black;
+            margin-bottom: 16px;
+        }
+
+        .hero-description {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: white;
+            margin-bottom: 32px;
+        }
+
+        .cta-button {
+            background: black;
+            color: #F2DB69;
+            padding: 24px 48px;
+            font-size: 1.125rem;
+            font-weight: 900;
+            border: 4px solid #F2DB69;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .hero-decoration {
+            position: absolute;
+            font-size: 25rem;
+            color: #F2DB69;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .float-element {
+            position: absolute;
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 16px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 900;
+            color: #F2DB69;
+            text-align: center;
+            margin-bottom: 48px;
+            text-shadow: 3px 3px 0px #000;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 700;
+            color: #F2DB69;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        /* Tokenomics */
+        .tokenomics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .tokenomics-card {
+            background: black;
+            border: 4px solid black;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .token-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        .token-label {
+            color: #F2DB69;
+            font-weight: 900;
+            font-size: 1.125rem;
+            margin-bottom: 12px;
+        }
+
+        .token-value {
+            color: white;
+            font-size: 3rem;
+            font-weight: 900;
+        }
+
+        .token-bar {
+            height: 4px;
+            background: #F2DB69;
+            width: 50%;
+            margin: 12px auto 0;
+        }
+
+        .total-supply {
+            text-align: center;
+            margin: 48px 0;
+        }
+
+        .supply-card {
+            background: black;
+            border: 4px solid black;
+            padding: 32px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Collection */
+        .collection-scroll {
+            overflow-x: auto;
+            display: flex;
+            gap: 32px;
+            padding: 20px 0;
+        }
+
+        .collection-item {
+            min-width: 350px;
+            background: #2E2DF2;
+            border: 4px solid #F2DB69;
+            padding: 16px;
+        }
+
+        .collection-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border: 2px solid black;
+            background: #2E2DF2;
+        }
+
+        .collection-number {
+            background: #F2DB69;
+            color: black;
+            font-weight: 900;
+            font-size: 2.5rem;
+            padding: 8px 16px;
+            border: 2px solid black;
+            display: inline-block;
+            margin: 16px 0;
+        }
+
+        .collection-title {
+            color: #F2DB69;
+            font-weight: 900;
+            font-size: 1.5rem;
+            margin: 16px 0;
+            text-shadow: 2px 2px 0px #000;
+        }
+
+        .collection-chinese {
+            color: #F2DB69;
+            font-weight: 900;
+            font-size: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: black;
+            border-top: 4px solid #F2DB69;
+            padding: 48px 16px;
+            text-align: center;
+        }
+
+        .footer-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #F2DB69;
+            margin-bottom: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo-text { font-size: 1.5rem; }
+            .btn { padding: 6px 12px; font-size: 0.875rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-top">
+            <div class="logo-container">
+                <img src="/yoxi-logo.png" alt="YOXI Logo" class="logo-img" onerror="this.style.display='none'">
+                <h1 class="logo-text">YOXI</h1>
+            </div>
+            <div class="header-buttons">
+                <button class="btn" onclick="toggleEcosystem()">ECOSYSTEM ▼</button>
+                <button class="btn" onclick="toggleMenu()">☰</button>
+            </div>
+        </div>
+        <div class="ticker-bar">
+            <div class="ticker-content animate-scroll">
+                <span class="ticker-item">PROSPERITY RETURNS · 財富回歸</span>
+                <span class="ticker-item">THE EASTERN SPIRIT · 東方之靈</span>
+                <span class="ticker-item">THE LAST GUARDIAN · 最後守護者</span>
+                <span class="ticker-item">PROSPERITY RETURNS · 財富回歸</span>
+                <span class="ticker-item">THE EASTERN SPIRIT · 東方之靈</span>
+                <span class="ticker-item">THE LAST GUARDIAN · 最後守護者</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-decoration">喜</div>
+        
+        <div class="floating-elements">
+            <!-- Floating particles -->
+            <div class="float-element animate-float-particle" style="left: 10%; top: 20%; animation-delay: 0s; width: 8px; height: 8px; background: #F2DB69; border-radius: 50%;"></div>
+            <div class="float-element animate-float-particle" style="left: 30%; top: 40%; animation-delay: 1s; width: 8px; height: 8px; background: #F2DB69; border-radius: 50%;"></div>
+            <div class="float-element animate-float-particle" style="left: 60%; top: 10%; animation-delay: 2s; width: 8px; height: 8px; background: #F2DB69; border-radius: 50%;"></div>
+            <div class="float-element animate-float" style="left: 20%; top: 30%; font-size: 3rem;">🏮</div>
+            <div class="float-element animate-float" style="left: 70%; top: 50%; font-size: 3rem; animation-delay: 1.5s;">🏮</div>
+            <div class="float-element animate-float" style="left: 40%; top: 70%; font-size: 2rem;">🪙</div>
+            <div class="float-element animate-float" style="left: 80%; top: 20%; font-size: 2rem; animation-delay: 0.8s;">🪙</div>
+        </div>
+
+        <div class="hero-content">
+            <h2 class="hero-title">THE GOLDEN CAT<br>OF FORTUNE</h2>
+            <p class="hero-subtitle">THE GOLDEN SPIRIT OF BNB · 幣安的黃金之靈</p>
+            <p style="font-size: 1.25rem; font-weight: 700; color: black; margin-bottom: 16px;">— 東方智慧 × 西方創新 — 🏮</p>
+            <p class="hero-description">Born from the dragon's breath. Guarded by the cat of fortune.</p>
+            <a href="https://x.com/JoyOnBNB" target="_blank" class="cta-button">🐦 FOLLOW ME</a>
+        </div>
+    </section>
+
+    <!-- Tokenomics Section -->
+    <section style="background: #2E2DF2;">
+        <div class="container">
+            <h2 class="section-title">TOKENOMICS</h2>
+            <p class="section-subtitle">財富殿堂</p>
+
+            <div class="total-supply">
+                <div class="supply-card">
+                    <div style="font-size: 3rem; margin-bottom: 16px;">💰</div>
+                    <div class="token-label">TOTAL SUPPLY</div>
+                    <div style="color: white; font-size: 3rem; font-weight: 900;">1,000,000,000</div>
+                    <div class="token-bar"></div>
+                </div>
+            </div>
+
+            <div class="tokenomics-grid">
+                <div class="tokenomics-card">
+                    <div class="token-icon">💰</div>
+                    <div class="token-label">CIRCULATING</div>
+                    <div class="token-value">80%</div>
+                    <div class="token-bar"></div>
+                </div>
+                <div class="tokenomics-card">
+                    <div class="token-icon">🔒</div>
+                    <div class="token-label">LOCKED</div>
+                    <div class="token-value">10%</div>
+                    <div class="token-bar"></div>
+                </div>
+                <div class="tokenomics-card">
+                    <div class="token-icon">🔥</div>
+                    <div class="token-label">DEV BURNT</div>
+                    <div class="token-value">5%</div>
+                    <div class="token-bar"></div>
+                </div>
+                <div class="tokenomics-card">
+                    <div class="token-icon">📢</div>
+                    <div class="token-label">MARKETING</div>
+                    <div class="token-value">3%</div>
+                    <div class="token-bar"></div>
+                </div>
+                <div class="tokenomics-card">
+                    <div class="token-icon">👥</div>
+                    <div class="token-label">TEAM</div>
+                    <div class="token-value">2%</div>
+                    <div class="token-bar"></div>
+                </div>
+            </div>
+
+            <p style="text-align: center; font-size: 1.25rem; font-weight: 700; color: black; margin-top: 48px; font-style: italic;">
+                Every burn is an offering — when tokens vanish, joy grows lighter.
+            </p>
+            <p style="text-align: center; font-size: 1.125rem; font-weight: 900; color: #F2DB69; margin-top: 8px;">
+                每次燃燒都是供奉 — 代幣消失，喜悅更輕盈。
+            </p>
+        </div>
+    </section>
+
+    <!-- Collection Section -->
+    <section style="background: black; padding: 80px 16px;">
+        <div class="container">
+            <h2 class="section-title">SCROLLS OF JOY</h2>
+            <p class="section-subtitle" style="color: white;">喜之卷軸</p>
+
+            <div class="collection-scroll">
+                <div class="collection-item">
+                    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20251016-WA0018-hQHxVZn0hq2FYoATQYnOVBJAzRaDje.jpg" 
+                         alt="WARRIOR YOXI" class="collection-image">
+                    <div class="collection-number">01</div>
+                    <div class="collection-title">WARRIOR YOXI</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">POWER × STRENGTH × COURAGE</p>
+                    <div class="collection-chinese">戰士喜</div>
+                </div>
+                <div class="collection-item">
+                    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20251016-WA0029-N1ZUextKhkm3wmgID6NWk1mIxBxG3Q.jpg" 
+                         alt="FORTUNE YOXI" class="collection-image">
+                    <div class="collection-number">02</div>
+                    <div class="collection-title">FORTUNE YOXI</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">WEALTH × PROSPERITY × JOY</p>
+                    <div class="collection-chinese">財富喜</div>
+                </div>
+                <div class="collection-item">
+                    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20251016-WA0015-QkumQ2OlbL1KC40qs0FSlukbCwbCIA.jpg" 
+                         alt="COOL YOXI" class="collection-image">
+                    <div class="collection-number">03</div>
+                    <div class="collection-title">COOL YOXI</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">STYLE × CONFIDENCE × SWAGGER</p>
+                    <div class="collection-chinese">酷炫喜</div>
+                </div>
+                <div class="collection-item">
+                    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-10-15%20at%2016.17.00_c8de5c9a-plIZAM1Z8YhJ01YArOCy6ugyOtdYAw.jpg" 
+                         alt="GAMER YOXI" class="collection-image">
+                    <div class="collection-number">04</div>
+                    <div class="collection-title">GAMER YOXI</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">SKILL × FOCUS × VICTORY</p>
+                    <div class="collection-chinese">遊戲喜</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section style="background: #2E2DF2; padding: 128px 16px;">
+        <div class="container" style="text-align: center;">
+            <h2 class="section-title" style="font-size: clamp(3rem, 8vw, 6rem);">有喜来了</h2>
+            <p class="section-subtitle" style="color: black; font-size: 2.5rem;">JOY HAS ARRIVED</p>
+            <p style="font-size: 1.25rem; margin: 16px 0;">The legend has awakened. The Golden Cat walks again.</p>
+            <p style="font-size: 1.125rem; color: black; font-weight: 700; margin-bottom: 48px;">傳說已醒。金貓再臨。</p>
+            <a href="https://x.com/JoyOnBNB" target="_blank" class="cta-button" style="font-size: 1.25rem; padding: 32px 48px;">🐦 FOLLOW ME</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <h3 class="footer-title">DexScreener</h3>
+            <button class="btn" style="margin-bottom: 32px; font-size: 1.125rem; padding: 24px 32px;">Chart</button>
+            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+                    class="btn" style="background: #E63946; border-color: #F2DB69; color: #F2DB69;">
+                ↑
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        function toggleEcosystem() {
+            alert('ECOSYSTEM menu (coming soon in interactive version)');
+        }
+        function toggleMenu() {
+            alert('Social media menu (coming soon in interactive version)');
+        }
+    </script>
+</body>
+</html>
+
