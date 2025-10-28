@@ -39,7 +39,7 @@
   --sidebar-ring: oklch(0.439 0 0);
 
   /* Custom colors for YOXI theme */
-  --yoxi-red: #2e2df2; /* Updated to blue #2E2DF2 */
+  --yoxi-red: #151515; /* Updated to dark gray #151515 */
   --yoxi-yellow: #f2db69;
   --yoxi-gold: #f2db69;
   --yoxi-black: oklch(0.15 0 0);
