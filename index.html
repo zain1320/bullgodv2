@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BULLGOD - The Mighty Bull</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #151515;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        @keyframes float-particle {
+            0% { transform: translateY(0); opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float-particle { animation: float-particle 12s ease-in-out infinite; }
+        .animate-scroll { animation: scroll 30s linear infinite; }
+        .animate-fade-in { animation: fade-in 0.5s ease-in; }
+        .animate-fade-up { animation: fade-up 0.8s ease-out forwards; }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: #151515;
+            border-bottom: 2px solid black;
+        }
+
+        .header-top {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-img {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #151515;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #CB9D06;
+            text-shadow: 3px 3px 0px #000;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 24px;
+            font-weight: 900;
+            border: 2px solid black;
+            cursor: pointer;
+            background: #CB9D06;
+            color: black;
+            font-size: 0.875rem;
+        }
+
+        .btn:hover {
+            background: #CB9D06DD;
+        }
+
+        .menu-btn {
+            background: #CB9D06;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .menu-line {
+            width: 20px;
+            height: 2px;
+            background: black;
+        }
+
+        .ticker-bar {
+            background: #CB9D06;
+            border-top: 2px solid black;
+            border-bottom: 2px solid black;
+            padding: 8px 0;
+            overflow: hidden;
+        }
+
+        .ticker-content {
+            display: flex;
+            white-space: nowrap;
+        }
+
+        .ticker-item {
+            color: white;
+            font-weight: 900;
+            font-size: 1.125rem;
+            margin: 0 32px;
+        }
+
+        /* Dropdown Menus */
+        .dropdown {
+            position: fixed;
+            top: 120px;
+            right: 16px;
+            z-index: 50;
+            animation: fade-in 0.3s;
+            width: 320px;
+        }
+
+        .dropdown-header {
+            background: #CB9D06;
+            border: 4px solid black;
+            border-radius: 8px 8px 0 0;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dropdown-header h3 {
+            color: black;
+            font-weight: 900;
+            font-size: 1.125rem;
+        }
+
+        .close-btn {
+            width: 32px;
+            height: 32px;
+            background: black;
+            border-radius: 50%;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.25rem;
+        }
+
+        .dropdown-content {
+            background: black;
+            border: 4px solid black;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            padding: 16px;
+        }
+
+        .dropdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            margin: 4px 0;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(242, 219, 105, 0.1);
+        }
+
+        .dropdown-item-text {
+            color: #CB9D06;
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+
+        .dropdown-item:hover .dropdown-item-text {
+            color: white;
+        }
+
+        .soon-badge {
+            background: #dc2626;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 900;
+            padding: 4px 12px;
+            border: 2px solid black;
+            border-radius: 4px;
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 40;
+            animation: fade-in 0.2s;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 160px 16px 96px;
+            background: #151515;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 9rem);
+            font-weight: 900;
+            color: #CB9D06;
+            line-height: 1;
+            margin-bottom: 24px;
+            text-shadow: 6px 6px 0px #000;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 2.5rem);
+            font-weight: 900;
+            color: black;
+            margin-bottom: 16px;
+        }
+
+        .hero-description {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: white;
+            margin-bottom: 32px;
+        }
+
+        .cta-button {
+            background: black;
+            color: #CB9D06;
+            padding: 24px 48px;
+            font-size: 1.125rem;
+            font-weight: 900;
+            border: 4px solid #CB9D06;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .ca-button {
+            background: black;
+            color: #CB9D06;
+            border: 3px solid #CB9D06;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
+        }
+        
+        .ca-button:hover {
+            transform: scale(1.05);
+            background: #CB9D06;
+            color: black;
+        }
+        
+        .ca-text {
+            font-family: monospace;
+        }
+        
+        .copy-icon {
+            transition: transform 0.2s;
+        }
+        
+        .ca-button:hover .copy-icon {
+            transform: rotate(15deg);
+        }
+
+        .hero-decoration {
+            position: absolute;
+            font-size: 20rem;
+            color: #CB9D06;
+            opacity: 0.08;
+            pointer-events: none;
+            font-weight: 900;
+        }
+        
+        .hero-deity-image {
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 400px;
+            height: auto;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 1;
+            animation: deity-glow 3s ease-in-out infinite;
+        }
+        
+        @keyframes deity-glow {
+            0%, 100% { opacity: 0.1; filter: blur(0px); }
+            50% { opacity: 0.2; filter: blur(2px); }
+        }
+        
+        @media (max-width: 968px) {
+            .hero-deity-image {
+                width: 300px;
+                right: 5%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-deity-image {
+                width: 250px;
+                opacity: 0.1;
+            }
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .float-element {
+            position: absolute;
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 16px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 900;
+            color: #CB9D06;
+            text-align: center;
+            margin-bottom: 48px;
+            text-shadow: 3px 3px 0px #000;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 700;
+            color: #CB9D06;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        /* Tokenomics */
+        .tokenomics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .tokenomics-card {
+            background: black;
+            border: 4px solid black;
+            padding: 24px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .tokenomics-card:hover {
+            transform: scale(1.05);
+        }
+
+        .token-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        .token-label {
+            color: #CB9D06;
+            font-weight: 900;
+            font-size: 1.125rem;
+            margin-bottom: 12px;
+        }
+
+        .token-value {
+            color: white;
+            font-size: 3rem;
+            font-weight: 900;
+        }
+
+        .token-bar {
+            height: 4px;
+            background: #CB9D06;
+            width: 50%;
+            margin: 12px auto 0;
+        }
+
+        .total-supply {
+            text-align: center;
+            margin: 48px 0;
+        }
+
+        .supply-card {
+            background: black;
+            border: 4px solid black;
+            padding: 32px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Collection */
+        .collection-wrapper {
+            overflow-x: auto;
+            padding: 20px 0;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: #CB9D06 #151515;
+            -ms-overflow-style: auto;
+        }
+        
+        .collection-wrapper::-webkit-scrollbar {
+            display: block;
+            height: 10px;
+        }
+        
+        .collection-wrapper::-webkit-scrollbar-track {
+            background: #151515;
+        }
+        
+        .collection-wrapper::-webkit-scrollbar-thumb {
+            background: #CB9D06;
+            border-radius: 5px;
+        }
+        
+        .collection-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #e5b405;
+        }
+        
+        .collection-item {
+            color: white;
+        }
+
+        .collection-scroll {
+            display: flex;
+            gap: 32px;
+            animation: scroll-collection 80s linear infinite;
+            width: max-content;
+        }
+        
+        @keyframes scroll-collection {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .collection-item {
+            min-width: 300px;
+            max-width: 350px;
+            background: #151515;
+            border: 4px solid #CB9D06;
+            padding: 16px;
+            transition: transform 0.3s;
+            flex-shrink: 0;
+        }
+
+        .collection-item:hover {
+            transform: translateY(-16px) scale(1.05);
+        }
+
+        .collection-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border: 2px solid black;
+            background: #151515;
+        }
+        
+        /* Pause auto-scroll on hover or touch */
+        .collection-wrapper:hover .collection-scroll {
+            animation-play-state: paused;
+        }
+
+        .collection-number {
+            background: #CB9D06;
+            color: black;
+            font-weight: 900;
+            font-size: 2.5rem;
+            padding: 8px 16px;
+            border: 2px solid black;
+            display: inline-block;
+            margin: 16px 0;
+        }
+
+        .collection-title {
+            color: white !important;
+            font-weight: 900;
+            font-size: 1.5rem;
+            margin: 16px 0;
+            text-shadow: 2px 2px 0px #000;
+        }
+        
+        .collection-item p {
+            color: white !important;
+        }
+
+        /* Tweets Section */
+        .tweets-section {
+            background: linear-gradient(180deg, #151515 0%, #151515 100%);
+            padding: 80px 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tweets-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(white, transparent 1px),
+                radial-gradient(white, transparent 1px);
+            background-size: 100px 100px;
+            background-position: 0 0, 50px 50px;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        .tweets-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 48px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .tweets-grid .video-item:nth-child(5) {
+            grid-column: 1 / -1;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .tweet-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 3px solid #CB9D06;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            background: black;
+        }
+
+        .tweet-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(242, 219, 105, 0.3);
+        }
+
+        .tweet-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .video-item {
+            position: relative;
+        }
+        
+        .video-item a {
+            display: block;
+            position: relative;
+        }
+        
+        .video-item img {
+            width: 100%;
+            height: auto;
+            border: 3px solid #CB9D06;
+            border-radius: 12px;
+            display: block;
+        }
+        
+        .video-play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 0, 0, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+        
+        .video-item:hover .video-play-overlay {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .video-play-overlay::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 28px solid white;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            margin-left: 6px;
+        }
+
+        .tweet-play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 0, 0, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .tweet-play-icon::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 18px solid white;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 4px;
+        }
+
+        .tweet-single {
+            grid-column: 1 / -1;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .tweets-grid {
+                grid-template-columns: 1fr !important;
+                gap: 20px;
+                max-width: 100%;
+            }
+            
+            .tweets-grid .video-item {
+                margin: 0 !important;
+            }
+            
+            .tweets-grid .video-item:nth-child(5) {
+                grid-column: 1 !important;
+                max-width: 100%;
+            }
+            
+            .tweet-single {
+                grid-column: 1;
+                max-width: 100%;
+            }
+            
+            .video-item {
+                margin: 0 auto;
+            }
+            
+            .video-item img {
+                width: 100%;
+                height: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tweets-section {
+                padding: 48px 16px;
+            }
+            
+            .tweets-grid {
+                gap: 16px;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: black;
+            border-top: 4px solid #CB9D06;
+            padding: 48px 16px;
+            text-align: center;
+        }
+
+        .footer-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #CB9D06;
+            margin-bottom: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo-text { font-size: 1.5rem; }
+            .logo-img { width: 48px; height: 48px; }
+            .btn { padding: 6px 12px; font-size: 0.875rem; }
+            .dropdown { width: 280px; right: 8px; top: 100px; }
+            .collection-item { min-width: 280px; }
+            .collection-image { height: 350px; }
+            .hero { padding: 120px 16px 64px; }
+            .hero-title { font-size: 3rem; }
+            .section { padding: 48px 16px; }
+            .tokenomics-grid { grid-template-columns: 1fr; gap: 16px; }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-text { font-size: 1.25rem; }
+            .logo-img { width: 40px; height: 40px; }
+            .btn { padding: 4px 8px; font-size: 0.75rem; }
+            .collection-item { min-width: 250px; }
+            .collection-image { height: 300px; }
+            .hero-title { font-size: 2.5rem; }
+            .hero-subtitle { font-size: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-top">
+            <div class="logo-container">
+                <img src="./bullgodtransparent.png" alt="BULLGOD Logo" class="logo-img">
+                <h1 class="logo-text">BULLGOD</h1>
+            </div>
+            <div class="header-buttons">
+                <button class="btn" onclick="toggleEcosystem()" id="ecosystemBtn">ECOSYSTEM ▼</button>
+                <button class="btn menu-btn" onclick="toggleMenu()">
+                    <div class="menu-line"></div>
+                    <div class="menu-line"></div>
+                    <div class="menu-line"></div>
+                </button>
+            </div>
+        </div>
+        <div class="ticker-bar">
+            <div class="ticker-content animate-scroll">
+                <span class="ticker-item">THE MIGHTY BULL · POWER RETURNS</span>
+                <span class="ticker-item">DIGITAL STRENGTH · BULLISH SPIRIT</span>
+                <span class="ticker-item">THE ULTIMATE GUARDIAN · FORTUNE RISES</span>
+                <span class="ticker-item">THE MIGHTY BULL · POWER RETURNS</span>
+                <span class="ticker-item">DIGITAL STRENGTH · BULLISH SPIRIT</span>
+                <span class="ticker-item">THE ULTIMATE GUARDIAN · FORTUNE RISES</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Ecosystem Dropdown -->
+    <div id="ecosystemDropdown" style="display: none;">
+        <div class="dropdown">
+            <div class="dropdown-header">
+                <h3>ECOSYSTEM ▲</h3>
+                <button class="close-btn" onclick="toggleEcosystem()">✕</button>
+            </div>
+            <div class="dropdown-content">
+                <a href="https://coinmarketcap.com/currencies/bullgod/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
+                    <div class="dropdown-item">
+                        <span class="dropdown-item-text">COINMARKETCAP</span>
+                    </div>
+                </a>
+                <a href="https://www.coingecko.com/en/coins/bull-god" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
+                    <div class="dropdown-item">
+                        <span class="dropdown-item-text">COINGECKO</span>
+                    </div>
+                </a>
+                <a href="https://www.geckoterminal.com/base/pools/0x24b2734e7d769f53a2a1f2cf969c754227b6005b" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
+                    <div class="dropdown-item">
+                        <span class="dropdown-item-text">GECKOTERMINAL</span>
+                    </div>
+                </a>
+                <a href="https://dexscreener.com/base/0x24b2734e7d769f53a2a1f2cf969c754227b6005b" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
+                    <div class="dropdown-item">
+                        <span class="dropdown-item-text">DEXSCREENER</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="overlay" onclick="toggleEcosystem()"></div>
+    </div>
+
+    <!-- Social Menu -->
+    <div id="socialMenu" style="display: none;">
+        <div class="dropdown">
+            <div class="dropdown-header" style="background: #CB9D06;">
+                <h3 style="color: black;">SOCIAL MEDIA</h3>
+                <button class="close-btn" onclick="toggleMenu()">✕</button>
+            </div>
+            <div class="dropdown-content">
+                <a href="https://x.com/BullGodonBase" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
+                    <div class="dropdown-item">
+                        <span class="dropdown-item-text">TWITTER</span>
+                    </div>
+                </a>
+                <a href="https://t.me/bullgodonbase" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
+                    <div class="dropdown-item">
+                        <span class="dropdown-item-text">TELEGRAM</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="overlay" onclick="toggleMenu()"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-decoration">BULLGOD</div>
+        
+        <div class="hero-content">
+            <img src="./bullgodtransparent.png" alt="Bull God" style="width: 300px; height: auto; margin: 0 auto 32px; display: block;">
+            <div class="hero-title animate-fade-up">MASCOT OF THE<br>BULL RUN</div>
+            <p class="hero-subtitle animate-fade-up" style="animation-delay: 0.2s;">THE POWER OF BASE · DIGITAL DOMINANCE</p>
+            <p class="hero-description animate-fade-up" style="animation-delay: 0.4s;">Born from strength. Guided by power. Built for victory.</p>
+            <a href="https://x.com/BullGodonBase" target="_blank" class="cta-button animate-fade-up" style="animation-delay: 0.8s;">FOLLOW US</a>
+            <button onclick="copyAddress()" class="ca-button animate-fade-up" style="animation-delay: 1s; font-size: 1rem; padding: 16px 24px; margin: 16px auto 0; position: relative; display: flex;">
+                <span class="ca-text">CA: 0x56d4938431F7Fae7c6741E061aa2683dF12256F8</span>
+                <svg class="copy-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            </button>
+            <div id="copyToast" style="position: fixed; bottom: 20px; right: 20px; background: black; color: #CB9D06; padding: 16px 24px; border: 3px solid #CB9D06; border-radius: 8px; font-weight: 700; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 1000;">Address copied! ✓</div>
+        </div>
+    </section>
+
+    <!-- Collection Section -->
+    <section style="background: black; padding: 80px 16px;">
+        <div class="container">
+            <h2 class="section-title">POWER COLLECTION</h2>
+            <p class="section-subtitle" style="color: white;">BULL WARRIORS</p>
+
+            <div class="collection-wrapper">
+                <div class="collection-scroll">
+                <div class="collection-item">
+                    <img src="./collection/1761463487575.jpg" alt="URBAN WARRIOR" class="collection-image">
+                    <div class="collection-number">01</div>
+                    <div class="collection-title">URBAN WARRIOR</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">CITY × MUSCLE × DOMINANCE</p>
+                </div>
+                <div class="collection-item">
+                    <img src="./collection/download_1.png" alt="BULL MASTER" class="collection-image">
+                    <div class="collection-number">02</div>
+                    <div class="collection-title">BULL MASTER</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">MIGHT × FORCE × GLORY</p>
+                </div>
+                <div class="collection-item">
+                    <img src="./collection/4b6b6669-f041-4b29-9401-68e0c0116f4d.png" alt="TEMPLE GUARDIAN" class="collection-image">
+                    <div class="collection-number">03</div>
+                    <div class="collection-title">TEMPLE GUARDIAN</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">SACRED × POWER × PROTECTION</p>
+                </div>
+                <div class="collection-item">
+                    <img src="./collection/704e0563-c9ed-42b0-ac29-a8f1a70c7e6f.png" alt="SEA COMMANDER" class="collection-image">
+                    <div class="collection-number">04</div>
+                    <div class="collection-title">SEA COMMANDER</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">NAVY × FLEET × AUTHORITY</p>
+                </div>
+                <div class="collection-item">
+                    <img src="./collection/download_6.png" alt="DIGITAL SAVAGE" class="collection-image">
+                    <div class="collection-number">05</div>
+                    <div class="collection-title">DIGITAL SAVAGE</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">TECH × SPEED × FEARLESS</p>
+                </div>
+                <div class="collection-item">
+                    <img src="./collection/f26fe5b0-ea31-479a-92dd-e7c818222ee7.png" alt="MYTHIC BEAST" class="collection-image">
+                    <div class="collection-number">06</div>
+                    <div class="collection-title">MYTHIC BEAST</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">ANCIENT × FURY × IMMORTAL</p>
+                </div>
+                <div class="collection-item">
+                    <img src="./collection/IMG_20251020_223635_861.png" alt="BULL EMPEROR" class="collection-image">
+                    <div class="collection-number">07</div>
+                    <div class="collection-title">BULL EMPEROR</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">THRONE × REGAL × SOVEREIGN</p>
+                </div>
+                <div class="collection-item">
+                    <img src="./collection/newimage.png" alt="SPACE BULL" class="collection-image">
+                    <div class="collection-number">08</div>
+                    <div class="collection-title">SPACE BULL</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">SPACE × POWER × INFINITY</p>
+                </div>
+                <!-- Duplicate for seamless loop -->
+                <div class="collection-item">
+                    <img src="./collection/1761463487575.jpg" alt="BULL 1" class="collection-image">
+                    <div class="collection-number">01</div>
+                    <div class="collection-title">URBAN WARRIOR</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">CITY × MUSCLE × DOMINANCE</p>
+                </div>
+                <div class="collection-item">
+                    <img src="./collection/download_1.png" alt="BULL 2" class="collection-image">
+                    <div class="collection-number">02</div>
+                    <div class="collection-title">BULL MASTER</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">MIGHT × FORCE × GLORY</p>
+                </div>
+                <div class="collection-item">
+                    <img src="./collection/4b6b6669-f041-4b29-9401-68e0c0116f4d.png" alt="BULL 3" class="collection-image">
+                    <div class="collection-number">03</div>
+                    <div class="collection-title">TEMPLE GUARDIAN</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">SACRED × POWER × PROTECTION</p>
+                </div>
+                <div class="collection-item">
+                    <img src="./collection/704e0563-c9ed-42b0-ac29-a8f1a70c7e6f.png" alt="BULL 4" class="collection-image">
+                    <div class="collection-number">04</div>
+                    <div class="collection-title">SEA COMMANDER</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">NAVY × FLEET × AUTHORITY</p>
+                </div>
+                <div class="collection-item">
+                    <img src="./collection/download_6.png" alt="BULL 5" class="collection-image">
+                    <div class="collection-number">05</div>
+                    <div class="collection-title">DIGITAL SAVAGE</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">TECH × SPEED × FEARLESS</p>
+                </div>
+                <div class="collection-item">
+                    <img src="./collection/f26fe5b0-ea31-479a-92dd-e7c818222ee7.png" alt="BULL 6" class="collection-image">
+                    <div class="collection-number">06</div>
+                    <div class="collection-title">MYTHIC BEAST</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">ANCIENT × FURY × IMMORTAL</p>
+                </div>
+                <div class="collection-item">
+                    <img src="./collection/IMG_20251020_223635_861.png" alt="BULL 7" class="collection-image">
+                    <div class="collection-number">07</div>
+                    <div class="collection-title">BULL EMPEROR</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">THRONE × REGAL × SOVEREIGN</p>
+                </div>
+                <div class="collection-item">
+                    <img src="./collection/newimage.png" alt="BULL 8" class="collection-image">
+                    <div class="collection-number">08</div>
+                    <div class="collection-title">SPACE BULL</div>
+                    <p style="color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 8px;">SPACE × POWER × INFINITY</p>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tokenomics Section -->
+    <section id="tokenomicsSection" style="background: #151515;">
+        <div class="container">
+            <h2 class="section-title">TOKENOMICS</h2>
+            <p class="section-subtitle">POWER ECONOMY</p>
+
+            <div class="total-supply">
+                <div class="supply-card">
+                    <div style="font-size: 3rem; margin-bottom: 16px;">💰</div>
+                    <div class="token-label">TOTAL SUPPLY</div>
+                    <div style="color: white; font-size: 3rem; font-weight: 900;" id="totalSupply">0</div>
+                    <div class="token-bar"></div>
+                </div>
+            </div>
+
+            <div class="tokenomics-grid">
+                <div class="tokenomics-card">
+                    <div class="token-icon">💧</div>
+                    <div class="token-label">LP</div>
+                    <div class="token-value" id="lpValue">0%</div>
+                    <div class="token-bar"></div>
+                </div>
+                <div class="tokenomics-card">
+                    <div class="token-icon">🔒</div>
+                    <div class="token-label">LOCKED</div>
+                    <div class="token-value" id="lockValue">0%</div>
+                    <div class="token-bar"></div>
+                </div>
+                <div class="tokenomics-card">
+                    <div class="token-icon">📢</div>
+                    <div class="token-label">MARKETING</div>
+                    <div class="token-value" id="mktValue">0%</div>
+                    <div class="token-bar"></div>
+                </div>
+                <div class="tokenomics-card">
+                    <div class="token-icon">👥</div>
+                    <div class="token-label">TEAM</div>
+                    <div class="token-value" id="teamValue">0%</div>
+                    <div class="token-bar"></div>
+                </div>
+            </div>
+
+            <p style="text-align: center; font-size: 1.25rem; font-weight: 700; color: black; margin-top: 48px; font-style: italic;">
+                Locked liquidity ensures long-term stability and fair trading for all participants.
+            </p>
+            <p style="text-align: center; font-size: 1.125rem; font-weight: 900; color: #CB9D06; margin-top: 8px;">
+                SECURED TOKENS FOR LONG-TERM PROJECT STABILITY
+            </p>
+        </div>
+    </section>
+
+    <!-- Featured Videos Section -->
+    <section class="tweets-section" style="position: relative;">
+        <div class="container" style="position: relative; z-index: 1;">
+            <h2 style="font-size: clamp(3rem, 6vw, 5rem); font-weight: 900; text-align: center; margin-bottom: 16px;">
+                <span style="color: white;">FEATURED</span> 
+                <span style="color: #CB9D06;">CONTENT</span>
+            </h2>
+            <p style="font-size: clamp(1rem, 2vw, 1.25rem); text-align: center; color: white; font-weight: 400; margin-bottom: 16px;">
+                Community highlights and updates
+            </p>
+            
+            <div class="tweets-grid">
+                <div class="video-item">
+                    <a href="https://www.youtube.com/watch?v=pzM2_0eT9Fk" target="_blank" rel="noopener noreferrer">
+                        <img src="./videos/video1.jpg" alt="Video 1" onerror="this.src='https://img.youtube.com/vi/pzM2_0eT9Fk/maxresdefault.jpg'">
+                        <div class="video-play-overlay"></div>
+                    </a>
+                </div>
+                
+                <div class="video-item">
+                    <a href="https://www.youtube.com/watch?v=_VVWG5pTVqA" target="_blank" rel="noopener noreferrer">
+                        <img src="./videos/video2.jpg" alt="Video 2" onerror="this.src='https://img.youtube.com/vi/_VVWG5pTVqA/maxresdefault.jpg'">
+                        <div class="video-play-overlay"></div>
+                    </a>
+                </div>
+                
+                <div class="video-item">
+                    <a href="https://x.com/FinanceFreeman/status/1977856879595344300" target="_blank" rel="noopener noreferrer">
+                        <img src="./tweets/tweet1.png" alt="Giveaway Tweet" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMkUyREYyIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiNGMkRCNjkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuNGVtIj5BTVErR0lWRUFXRVk8L3RleHQ+PC9zdmc+'">
+                    </a>
+                </div>
+                
+                <div class="video-item">
+                    <a href="https://x.com/BullGodonBase/status/1977118298958393352" target="_blank" rel="noopener noreferrer">
+                        <img src="./tweets/tweet2.png" alt="GTA5 Tweet" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMkUyREYyIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiNGMkRCNjkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuNGVtIj5CUUxMREdPRCBHVEE1IE1PRDwvdGV4dD48L3N2Zz4='">
+                    </a>
+                </div>
+                
+                <div class="video-item">
+                    <a href="https://www.youtube.com/watch?v=O2b-HoAuJu4" target="_blank" rel="noopener noreferrer">
+                        <img src="./videos/video3.jpg" alt="Video 3" onerror="this.src='https://img.youtube.com/vi/O2b-HoAuJu4/maxresdefault.jpg'">
+                        <div class="video-play-overlay"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section style="background: #151515; padding: 128px 16px;">
+        <div class="container" style="text-align: center;">
+            <h2 class="section-title" style="font-size: clamp(3rem, 8vw, 6rem);">THE MIGHTY BULL</h2>
+            <p class="section-subtitle" style="color: black; font-size: 2.5rem;">POWER HAS ARRIVED</p>
+            <p style="font-size: 1.25rem; margin: 16px 0;">The legend has awakened. The Mighty Bull charges forward.</p>
+            <p style="font-size: 1.125rem; color: black; font-weight: 700; margin-bottom: 48px;">STRENGTH UNLEASHED — DOMINANCE ACHIEVED.</p>
+            <a href="https://x.com/BullGodonBase" target="_blank" class="cta-button" style="font-size: 1.25rem; padding: 32px 48px;">FOLLOW US</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <h3 class="footer-title">DexScreener</h3>
+            <a href="https://dexscreener.com/base/0x24b2734e7d769f53a2a1f2cf969c754227b6005b" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block; margin-bottom: 32px;">
+                <button class="btn" style="font-size: 1.125rem; padding: 24px 32px; cursor: pointer;">Chart</button>
+            </a>
+            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+                    class="btn" style="background: #E63946; border-color: #CB9D06; color: #CB9D06;">
+                ↑
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        let ecosystemOpen = false;
+        let menuOpen = false;
+        let tokenomicsAnimated = false;
+
+        function toggleEcosystem() {
+            ecosystemOpen = !ecosystemOpen;
+            document.getElementById('ecosystemDropdown').style.display = ecosystemOpen ? 'block' : 'none';
+            document.getElementById('ecosystemBtn').textContent = 'ECOSYSTEM ' + (ecosystemOpen ? '▲' : '▼');
+        }
+
+        function toggleMenu() {
+            menuOpen = !menuOpen;
+            document.getElementById('socialMenu').style.display = menuOpen ? 'block' : 'none';
+        }
+        
+        function copyAddress() {
+            const address = '0x56d4938431F7Fae7c6741E061aa2683dF12256F8';
+            
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(address).then(() => {
+                    showToast();
+                });
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = address;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast();
+                } catch (err) {
+                    console.error('Failed to copy');
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+        
+        function showToast() {
+            const toast = document.getElementById('copyToast');
+            toast.style.opacity = '1';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 2000);
+        }
+
+        // Tokenomics counting animation
+        function animateValue(element, start, end, duration, suffix = '') {
+            let startTimestamp = null;
+            
+            function step(timestamp) {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                element.textContent = value.toLocaleString() + suffix;
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            }
+            
+            window.requestAnimationFrame(step);
+        }
+
+        // Intersection Observer for tokenomics animation
+        function initTokenomicsAnimation() {
+            const tokenomicsSection = document.getElementById('tokenomicsSection');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !tokenomicsAnimated) {
+                        tokenomicsAnimated = true;
+                        
+                        // Animate total supply
+                        const totalSupplyElement = document.getElementById('totalSupply');
+                        animateValue(totalSupplyElement, 0, 1000000000, 2000);
+                        
+                        // Animate percentages with staggered timing
+                        setTimeout(() => {
+                            const lpValue = document.getElementById('lpValue');
+                            animateValue(lpValue, 0, 87, 1500, '%');
+                        }, 300);
+                        
+                        setTimeout(() => {
+                            const lockValue = document.getElementById('lockValue');
+                            animateValue(lockValue, 0, 9, 1200, '%');
+                        }, 600);
+                        
+                        setTimeout(() => {
+                            const mktValue = document.getElementById('mktValue');
+                            animateValue(mktValue, 0, 3, 800, '%');
+                        }, 900);
+                        
+                        setTimeout(() => {
+                            const teamValue = document.getElementById('teamValue');
+                            animateValue(teamValue, 0, 1, 600, '%');
+                        }, 1200);
+                    }
+                });
+            }, { threshold: 0.3 });
+            
+            if (tokenomicsSection) {
+                observer.observe(tokenomicsSection);
+            }
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            initTokenomicsAnimation();
+        });
+    </script>
+</body>
+</html>
+

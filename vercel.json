@@ -1,12 +1,6 @@
 {
-  "framework": null,
-  "buildCommand": "echo 'Static HTML site'",
-  "outputDirectory": "public",
-  "cleanUrls": true,
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
+
