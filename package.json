@@ -1,0 +1,9 @@
+{
+  "name": "bullgod-static-site",
+  "version": "1.0.0",
+  "description": "Static HTML site for BullGod",
+  "scripts": {
+    "build": "echo 'Static site - no build needed'"
+  }
+}
+
