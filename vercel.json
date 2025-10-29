@@ -1,5 +1,6 @@
 {
-  "buildCommand": "echo 'Static site deployment'",
+  "framework": null,
+  "buildCommand": "echo 'Static HTML site'",
   "outputDirectory": "public",
   "cleanUrls": true,
   "routes": [
