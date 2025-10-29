@@ -1,6 +1,7 @@
 {
+  "buildCommand": "echo 'Static site deployment'",
+  "outputDirectory": "public",
   "cleanUrls": true,
-  "trailingSlash": false,
   "routes": [
     {
       "src": "/(.*)",
