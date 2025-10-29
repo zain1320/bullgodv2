@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
-    "dev": "next dev",
+    "build": "echo 'Static HTML deployment - no build needed'",
+    "dev": "echo 'Use a local server to serve public/index.html'",
     "lint": "eslint .",
-    "start": "next start"
+    "start": "echo 'Static site - use vercel serve'"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
