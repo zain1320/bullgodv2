@@ -1,4 +1,6 @@
 {
-  "outputDirectory": "public"
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/bullgod.html" }
+  ]
 }
 
